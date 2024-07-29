@@ -1,6 +1,6 @@
 Write-Host "Script para la instalacion del agente de Telegraft" -ForegroundColor Green
 Write-Host "######################################################################" -ForegroundColor Yellow
-Write-Host "1.- Comprobando permisos de Administrador" -ForegroundColor Green
+Write-Host "1.- Comprobando permisos de Administrador"
 
 if (-NOT ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
     Write-Warning "Permisos insuficientes para ejecutar este script. Ejecute el script de PowerShell como administrador."
@@ -14,7 +14,7 @@ Write-Host "- Permisos correctos, iniciando la instalacion del agente de Telegra
 $serviceName = "telegraf"
 $service = Get-Service -Name $serviceName -ErrorAction SilentlyContinue
 
-Write-Host "2.- Comprobando existencia del servicio de telegraf" -ForegroundColor Green
+Write-Host "2.- Comprobando existencia del servicio de telegraf"
 if ($service) {
     # Detener el servicio si está en ejecución
     if ($service.Status -eq "Running") {
@@ -31,7 +31,7 @@ if ($service) {
 # Define el directorio de destino
 $destino = "C:\Program Files\Telegraf"
 
-Write-Host "3.- Comprobando directorio telegraf" -ForegroundColor Green
+Write-Host "3.- Comprobando directorio telegraf"
 # Verificar si el directorio de destino existe y eliminarlo con todo su contenido si es así
 if (Test-Path -Path $destino -PathType Container) {
     Remove-Item -Path $destino -Recurse -Force
@@ -47,7 +47,7 @@ $telegrafD = Join-Path -Path $destino -ChildPath "telegraf.d"
 New-Item -Path $telegrafD -ItemType Directory > $null
 Write-Host "- El directorio telegraf.d se ha creado en $destino." -ForegroundColor Green
 
-Write-Host "4.- Descargando agente de telegraf" -ForegroundColor Green
+Write-Host "4.- Descargando agente de telegraf"
 # Descarga telegraf en el directorio de destino
 $zipPath = Join-Path -Path $destino -ChildPath "telegraf-1.30.3_windows_amd64.zip"
 wget https://dl.influxdata.com/telegraf/releases/telegraf-1.30.3_windows_amd64.zip -UseBasicParsing -OutFile $zipPath
@@ -63,7 +63,7 @@ Remove-Item -Path $zipPath
 Remove-Item -Path (Join-Path -Path $destino -ChildPath "telegraf-1.30.3") -Recurse -Force
 
 # Solicitar al usuario la palabra a reemplazar en telegraf.conf
-$organizationName = Read-Host "5.- Introduce el nombre del cliente como esta en el proyecto JIRA (Ej: HSCALIU o HGASOC)" -ForegroundColor Red
+$organizationName = Read-Host "5.- Introduce el nombre del cliente como esta en el proyecto JIRA (Ej: HSCALIU o HGASOC)"
 
 # Generar el archivo organization.conf dentro de la carpeta telegraf.d
 $confContent = @"
@@ -86,7 +86,7 @@ Write-Host "- El archivo Telegraf.exe se ha convertido en un servicio." -Foregro
 Start-Service -Name "telegraf"
 
 # Esperar unos segundos para que el servicio se inicie completamente
-Write-Host "6.- Iniciando servicio Telegraf..." -ForegroundColor Green
+Write-Host "6.- Iniciando servicio Telegraf..."
 Start-Sleep -Seconds 5
 
 # Comprobar si el servicio se ha iniciado correctamente
@@ -101,7 +101,7 @@ if ($serviceStatus.Status -eq "Running") {
 # Configurar el recovery para que el servicio se reinicie en caso de un primer fallo y se configura el inicio automático retrasado
 sc.exe failure "telegraf" reset=0 actions=restart/60000/restart/60000/restart/60000 | Out-Null
 sc.exe config "telegraf" start=delayed-auto | Out-Null
-Write-Host "7.- Configurado el recovery para reiniciar el servicio en caso de un primer fallo." -ForegroundColor Green
+Write-Host "7.- Configurado el recovery para reiniciar el servicio en caso de un primer fallo."
 
 Write-Host "######################################################################" -ForegroundColor Yellow
 
