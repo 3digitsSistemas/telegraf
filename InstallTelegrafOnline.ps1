@@ -1,3 +1,5 @@
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+
 Write-Host "Iniciando Script para la instalación del agente de Telegraft" -ForegroundColor Green
 Write-Host "---------------------------" -ForegroundColor Yellow
 Write-Host "Comprobando permisos de Administrador" -ForegroundColor Green
