@@ -1,4 +1,5 @@
-﻿Write-Host "######################################################################" -ForegroundColor Yellow
+Write-Host "Iniciando Script para la instalación del agente de Telegraft" -ForegroundColor Green
+Write-Host "---------------------------" -ForegroundColor Yellow
 Write-Host "Comprobando permisos de Administrador" -ForegroundColor Green
 
 if (-NOT ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
@@ -43,13 +44,19 @@ $telegrafD = Join-Path -Path $destino -ChildPath "telegraf.d"
 New-Item -Path $telegrafD -ItemType Directory
 Write-Host "El directorio telegraf.d se ha creado en $destino." -ForegroundColor Green
 
-# Descarga telegraf, lo descomprime y lo mueve al directorio correspondiente
-wget https://dl.influxdata.com/telegraf/releases/telegraf-1.30.3_windows_amd64.zip -UseBasicParsing -OutFile telegraf-1.30.3_windows_amd64.zip
-Expand-Archive .\telegraf-1.30.3_windows_amd64.zip -DestinationPath 'C:\Program Files\telegraf\'
-cd "C:\Program Files\telegraf"
-mv .\telegraf-1.30.3\telegraf.* .
-Remove-Item .\telegraf-1.30.3_windows_amd64.zip
-Remove-Item .\telegraf-1.30.3 -Recurse -Force
+# Descarga telegraf en el directorio de destino
+$zipPath = Join-Path -Path $destino -ChildPath "telegraf-1.30.3_windows_amd64.zip"
+wget https://dl.influxdata.com/telegraf/releases/telegraf-1.30.3_windows_amd64.zip -UseBasicParsing -OutFile $zipPath
+
+# Descomprimir el archivo en el directorio de destino
+Expand-Archive -Path $zipPath -DestinationPath $destino
+
+# Mover los archivos telegraf.* del directorio descomprimido al directorio de destino
+Move-Item -Path (Join-Path -Path $destino -ChildPath "telegraf-1.30.3\telegraf.*") -Destination $destino
+
+# Eliminar el archivo ZIP y el directorio descomprimido
+Remove-Item -Path $zipPath
+Remove-Item -Path (Join-Path -Path $destino -ChildPath "telegraf-1.30.3") -Recurse -Force
 
 # Solicitar al usuario la palabra a reemplazar en telegraf.conf
 $organizationName = Read-Host "Introduce el nombre del cliente como está en el proyecto JIRA (Ej: HSCALIU o HGASOC)"
@@ -60,7 +67,7 @@ $confContent = @"
   organization = "$organizationName"
 "@
 
-Set-Content -Path "C:\Program Files\telegraf\telegraf.d\organization.conf" -Value $confContent
+Set-Content -Path (Join-Path -Path $telegrafD -ChildPath "organization.conf") -Value $confContent
 Write-Host "El archivo organization.conf se ha creado con éxito en la carpeta telegraf.d." -ForegroundColor Green
 
 # Ruta al archivo telegraf.exe
