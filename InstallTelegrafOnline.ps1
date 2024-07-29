@@ -18,6 +18,7 @@ if ($service) {
     # Detener el servicio si está en ejecución
     if ($service.Status -eq "Running") {
         Stop-Service -Name $serviceName -Force
+        Start-Sleep -Seconds 5
         Write-Host "Servicio Telegraf detenido." -ForegroundColor Green
     }
 
