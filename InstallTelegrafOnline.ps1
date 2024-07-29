@@ -1,6 +1,9 @@
 # Configurar la consola para usar UTF-8
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 
+# Especificar que el archivo del script también está en UTF-8
+$PSDefaultParameterValues['*:Encoding'] = 'utf8'
+
 Write-Host "Iniciando Script para la instalación del agente de Telegraft" -ForegroundColor Green
 Write-Host "---------------------------" -ForegroundColor Yellow
 Write-Host "Comprobando permisos de Administrador" -ForegroundColor Green
@@ -40,12 +43,12 @@ if (Test-Path -Path $destino -PathType Container) {
 }
 
 # Crear el directorio de destino
-New-Item -Path $destino -ItemType Directory
+New-Item -Path $destino -ItemType Directory > $null
 Write-Host "Directorio $destino creado." -ForegroundColor Green
 
 # Crear el directorio telegraf.d en la carpeta de destino
 $telegrafD = Join-Path -Path $destino -ChildPath "telegraf.d"
-New-Item -Path $telegrafD -ItemType Directory
+New-Item -Path $telegrafD -ItemType Directory > $null
 Write-Host "El directorio telegraf.d se ha creado en $destino." -ForegroundColor Green
 
 # Descarga telegraf en el directorio de destino
