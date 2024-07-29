@@ -24,7 +24,7 @@ if ($service) {
     }
 
     # Eliminar el servicio
-    sc.exe delete $serviceName
+    sc.exe delete $serviceName > $null
     Write-Host "- Servicio Telegraf eliminado." -ForegroundColor Green
 }
 
@@ -63,7 +63,7 @@ Remove-Item -Path $zipPath
 Remove-Item -Path (Join-Path -Path $destino -ChildPath "telegraf-1.30.3") -Recurse -Force
 
 # Solicitar al usuario la palabra a reemplazar en telegraf.conf
-$organizationName = Read-Host "5.- Introduce el nombre del cliente como está en el proyecto JIRA (Ej: HSCALIU o HGASOC)"
+$organizationName = Read-Host "5.- Introduce el nombre del cliente como esta en el proyecto JIRA (Ej: HSCALIU o HGASOC)" -ForegroundColor Red
 
 # Generar el archivo organization.conf dentro de la carpeta telegraf.d
 $confContent = @"
