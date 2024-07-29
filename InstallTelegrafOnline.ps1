@@ -47,7 +47,7 @@ $telegrafD = Join-Path -Path $destino -ChildPath "telegraf.d"
 New-Item -Path $telegrafD -ItemType Directory > $null
 Write-Host "- El directorio telegraf.d se ha creado en $destino." -ForegroundColor Green
 
-Write-Host "3.- Descargando agente de telegraf" -ForegroundColor Green
+Write-Host "4.- Descargando agente de telegraf" -ForegroundColor Green
 # Descarga telegraf en el directorio de destino
 $zipPath = Join-Path -Path $destino -ChildPath "telegraf-1.30.3_windows_amd64.zip"
 wget https://dl.influxdata.com/telegraf/releases/telegraf-1.30.3_windows_amd64.zip -UseBasicParsing -OutFile $zipPath
@@ -63,7 +63,7 @@ Remove-Item -Path $zipPath
 Remove-Item -Path (Join-Path -Path $destino -ChildPath "telegraf-1.30.3") -Recurse -Force
 
 # Solicitar al usuario la palabra a reemplazar en telegraf.conf
-$organizationName = Read-Host "4.- Introduce el nombre del cliente como está en el proyecto JIRA (Ej: HSCALIU o HGASOC)"
+$organizationName = Read-Host "5.- Introduce el nombre del cliente como está en el proyecto JIRA (Ej: HSCALIU o HGASOC)"
 
 # Generar el archivo organization.conf dentro de la carpeta telegraf.d
 $confContent = @"
@@ -86,7 +86,7 @@ Write-Host "- El archivo Telegraf.exe se ha convertido en un servicio." -Foregro
 Start-Service -Name "telegraf"
 
 # Esperar unos segundos para que el servicio se inicie completamente
-Write-Host "5.- Iniciando servicio Telegraf..." -ForegroundColor Green
+Write-Host "6.- Iniciando servicio Telegraf..." -ForegroundColor Green
 Start-Sleep -Seconds 5
 
 # Comprobar si el servicio se ha iniciado correctamente
@@ -101,7 +101,7 @@ if ($serviceStatus.Status -eq "Running") {
 # Configurar el recovery para que el servicio se reinicie en caso de un primer fallo y se configura el inicio automático retrasado
 sc.exe failure "telegraf" reset=0 actions=restart/60000/restart/60000/restart/60000
 sc.exe config "telegraf" start=delayed-auto
-Write-Host "6.- Configurado el recovery para reiniciar el servicio en caso de un primer fallo." -ForegroundColor Green
+Write-Host "7.- Configurado el recovery para reiniciar el servicio en caso de un primer fallo." -ForegroundColor Green
 
 Write-Host "######################################################################" -ForegroundColor Yellow
 
