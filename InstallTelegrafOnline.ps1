@@ -72,7 +72,7 @@ $confContent = @"
 "@
 
 Set-Content -Path (Join-Path -Path $telegrafD -ChildPath "organization.conf") -Value $confContent
-Write-Host "- El archivo organization.conf se ha creado con éxito en la carpeta telegraf.d." -ForegroundColor Green
+Write-Host "- El archivo organization.conf se ha creado con exito en la carpeta telegraf.d." -ForegroundColor Green
 
 # Ruta al archivo telegraf.exe
 $rutaEjecutable = Join-Path -Path $destino -ChildPath "telegraf.exe"
@@ -99,8 +99,8 @@ if ($serviceStatus.Status -eq "Running") {
 }
 
 # Configurar el recovery para que el servicio se reinicie en caso de un primer fallo y se configura el inicio automático retrasado
-sc.exe failure "telegraf" reset=0 actions=restart/60000/restart/60000/restart/60000
-sc.exe config "telegraf" start=delayed-auto
+sc.exe failure "telegraf" reset=0 actions=restart/60000/restart/60000/restart/60000  > $null
+sc.exe config "telegraf" start=delayed-auto  > $null
 Write-Host "7.- Configurado el recovery para reiniciar el servicio en caso de un primer fallo." -ForegroundColor Green
 
 Write-Host "######################################################################" -ForegroundColor Yellow
