@@ -1,3 +1,6 @@
+# Configurar la consola para usar UTF-8
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+
 Write-Host "Iniciando Script para la instalación del agente de Telegraft" -ForegroundColor Green
 Write-Host "---------------------------" -ForegroundColor Yellow
 Write-Host "Comprobando permisos de Administrador" -ForegroundColor Green
