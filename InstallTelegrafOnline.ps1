@@ -62,7 +62,7 @@ Move-Item -Path (Join-Path -Path $destino -ChildPath "telegraf-1.30.3\telegraf.*
 Remove-Item -Path $zipPath
 Remove-Item -Path (Join-Path -Path $destino -ChildPath "telegraf-1.30.3") -Recurse -Force
 
-Write-Host "5.- Determinando nombre de organización"
+Write-Host "5.- Determinando nombre de organizacion"
 # Obtener el nombre del dominio del equipo
 $domainName = $env:USERDNSDOMAIN
 
@@ -70,10 +70,10 @@ $domainName = $env:USERDNSDOMAIN
 if ($domainName -and $domainName -ne "") {
     # Usar el nombre de dominio como nombre de organización
     $organizationName = $domainName
-    Write-Host "- Nombre de dominio detectado: $domainName. Usando como nombre de organización." -ForegroundColor Green
+    Write-Host "- Nombre de dominio detectado: $domainName. Usando como nombre de organizacion." -ForegroundColor Green
 } else {
     # Solicitar al usuario la palabra a reemplazar en telegraf.conf
-    $organizationName = Read-Host "Equipo fuera de dominio, introduce el nombre del cliente como está en el proyecto JIRA (Ej: HSCALIU o HGASOC)"
+    $organizationName = Read-Host "Equipo fuera de dominio, introduce el nombre del cliente como esta en el proyecto JIRA (Ej: HSCALIU o HGASOC)"
 }
 
 # Generar el archivo organization.conf dentro de la carpeta telegraf.d
@@ -112,7 +112,7 @@ if ($serviceStatus.Status -eq "Running") {
 # Configurar el recovery para que el servicio se reinicie en caso de un primer fallo y se configura el inicio automático retrasado
 sc.exe failure "telegraf" reset=0 actions=restart/60000/restart/60000/restart/60000 | Out-Null
 sc.exe config "telegraf" start=delayed-auto | Out-Null
-Write-Host "7.- Configurado el recovery para reiniciar el servicio en caso de un primer fallo."
+Write-Host "7.- Configurado el recovery para reiniciar el servicio en caso de fallo."
 
 Write-Host "######################################################################" -ForegroundColor Yellow
 
