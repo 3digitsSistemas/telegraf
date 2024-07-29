@@ -34,12 +34,12 @@ $destino = "C:\Program Files\Telegraf"
 Write-Host "3.- Comprobando directorio telegraf"
 # Verificar si el directorio de destino existe y eliminarlo con todo su contenido si es así
 if (Test-Path -Path $destino -PathType Container) {
-    Remove-Item -Path $destino -Recurse -Force
+    Remove-Item -Path $destino -Recurse -Force -ErrorAction SilentlyContinue | Out-Null
     Write-Host "- Directorio $destino eliminado con todo su contenido." -ForegroundColor Green
 }
 
 # Crear el directorio de destino
-New-Item -Path $destino -ItemType Directory > $null
+New-Item -Path $destino -ItemType Directory -ErrorAction SilentlyContinue | Out-Null
 Write-Host "- Directorio $destino creado." -ForegroundColor Green
 
 # Crear el directorio telegraf.d en la carpeta de destino
@@ -62,8 +62,19 @@ Move-Item -Path (Join-Path -Path $destino -ChildPath "telegraf-1.30.3\telegraf.*
 Remove-Item -Path $zipPath
 Remove-Item -Path (Join-Path -Path $destino -ChildPath "telegraf-1.30.3") -Recurse -Force
 
-# Solicitar al usuario la palabra a reemplazar en telegraf.conf
-$organizationName = Read-Host "5.- Introduce el nombre del cliente como esta en el proyecto JIRA (Ej: HSCALIU o HGASOC)"
+Write-Host "5.- Determinando nombre de organización"
+# Obtener el nombre de dominio del equipo
+$domainName = [System.Environment]::GetEnvironmentVariable("USERDOMAIN")
+
+# Comprobar si el equipo está en un dominio
+if ($domainName -and $domainName -ne "DESKTOP" -and $domainName -ne "WORKGROUP") {
+    # Usar el nombre de dominio como nombre de organización
+    $organizationName = $domainName
+    Write-Host "- Nombre de dominio detectado: $domainName. Usando como nombre de organización." -ForegroundColor Green
+} else {
+    # Solicitar al usuario la palabra a reemplazar en telegraf.conf
+    $organizationName = Read-Host "Equipo fuera de dominio. Introduce el nombre del cliente como está en el proyecto JIRA (Ej: HSCALIU o HGASOC)"
+}
 
 # Generar el archivo organization.conf dentro de la carpeta telegraf.d
 $confContent = @"
