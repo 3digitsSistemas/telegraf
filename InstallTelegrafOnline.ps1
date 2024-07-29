@@ -24,7 +24,7 @@ if ($service) {
     }
 
     # Eliminar el servicio
-    sc.exe delete $serviceName > $null
+    sc.exe delete $serviceName | Out-Null
     Write-Host "- Servicio Telegraf eliminado." -ForegroundColor Green
 }
 
@@ -99,8 +99,8 @@ if ($serviceStatus.Status -eq "Running") {
 }
 
 # Configurar el recovery para que el servicio se reinicie en caso de un primer fallo y se configura el inicio automático retrasado
-sc.exe failure "telegraf" reset=0 actions=restart/60000/restart/60000/restart/60000  > $null
-sc.exe config "telegraf" start=delayed-auto  > $null
+sc.exe failure "telegraf" reset=0 actions=restart/60000/restart/60000/restart/60000 | Out-Null
+sc.exe config "telegraf" start=delayed-auto | Out-Null
 Write-Host "7.- Configurado el recovery para reiniciar el servicio en caso de un primer fallo." -ForegroundColor Green
 
 Write-Host "######################################################################" -ForegroundColor Yellow
