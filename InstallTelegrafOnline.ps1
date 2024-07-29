@@ -70,10 +70,10 @@ $domainName = $env:USERDNSDOMAIN
 if ($domainName -and $domainName -ne "") {
     # Usar el nombre de dominio como nombre de organización
     $organizationName = $domainName
-    Write-Host "- Nombre de dominio detectado: $domainName. Usando como nombre de organizacion." -ForegroundColor Green
+    Write-Host "- Nombre de dominio detectado: $domainName." -ForegroundColor Green
 } else {
     # Solicitar al usuario la palabra a reemplazar en telegraf.conf
-    $organizationName = Read-Host "Equipo fuera de dominio, introduce el nombre del cliente como esta en el proyecto JIRA (Ej: HSCALIU o HGASOC)"
+    $organizationName = Read-Host "- Equipo fuera de dominio, introduce el nombre del cliente como esta en el proyecto JIRA (Ej: HSCALIU o HGASOC)"
 }
 
 # Generar el archivo organization.conf dentro de la carpeta telegraf.d
@@ -91,13 +91,13 @@ $rutaEjecutable = Join-Path -Path $destino -ChildPath "telegraf.exe"
 # Convertir el archivo telegraf.exe en un servicio
 cd $destino
 .\telegraf.exe --service install --config https://raw.githubusercontent.com/3digitsSistemas/telegraf/main/telegraf.conf --config-directory $destino\telegraf.d
-Write-Host "- El archivo Telegraf.exe se ha convertido en un servicio." -ForegroundColor Green
+Write-Host "6.- Convirtiendo telegraf.exe en servicio de Sistema." -ForegroundColor Green
 
 # Iniciar el servicio Telegraf
 Start-Service -Name "telegraf"
 
 # Esperar unos segundos para que el servicio se inicie completamente
-Write-Host "6.- Iniciando servicio Telegraf..."
+Write-Host "- Iniciando servicio Telegraf..."
 Start-Sleep -Seconds 5
 
 # Comprobar si el servicio se ha iniciado correctamente
