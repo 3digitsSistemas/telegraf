@@ -91,13 +91,13 @@ $rutaEjecutable = Join-Path -Path $destino -ChildPath "telegraf.exe"
 # Convertir el archivo telegraf.exe en un servicio
 cd $destino
 .\telegraf.exe --service install --config https://raw.githubusercontent.com/3digitsSistemas/telegraf/main/telegraf.conf --config-directory $destino\telegraf.d
-Write-Host "6.- Convirtiendo telegraf.exe en servicio de Sistema." -ForegroundColor Green
+Write-Host "6.- Convirtiendo telegraf.exe en servicio de Sistema."
 
 # Iniciar el servicio Telegraf
 Start-Service -Name "telegraf"
 
 # Esperar unos segundos para que el servicio se inicie completamente
-Write-Host "- Iniciando servicio Telegraf..."
+Write-Host "- Iniciando servicio Telegraf..." -ForegroundColor Green
 Start-Sleep -Seconds 5
 
 # Comprobar si el servicio se ha iniciado correctamente
