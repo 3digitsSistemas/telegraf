@@ -31,8 +31,8 @@ if ($service) {
 # Define el directorio de destino
 $destino = "C:\Program Files\Telegraf"
 
+# Verificar si el directorio de destino existe y lo elimina con todo su contenido si es así
 Write-Host "3.- Comprobando directorio telegraf"
-# Verificar si el directorio de destino existe y eliminarlo con todo su contenido si es así
 if (Test-Path -Path $destino -PathType Container) {
     Remove-Item -Path $destino -Recurse -Force -ErrorAction SilentlyContinue | Out-Null
     Write-Host "- Directorio $destino eliminado con todo su contenido." -ForegroundColor Green
@@ -86,7 +86,7 @@ Set-Content -Path (Join-Path -Path $telegrafD -ChildPath "organization.conf") -V
 Write-Host "- El archivo organization.conf se ha creado con exito en la carpeta telegraf.d." -ForegroundColor Green
 
 # Solicitar al usuario la contraseña para el archivo outputs.conf
-$password = Read-Host "6.- Introduce la contraseña de la BBDD:"
+$password = Read-Host "6.- Introduce el password de la BBDD"
 
 # Generar el archivo outputs.conf dentro de la carpeta telegraf.d
 $outputsContent = @"
