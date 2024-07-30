@@ -2,6 +2,10 @@ param (
     [string]$password
 )
 
+if (-not $password -and $args.Length -gt 0) {
+    $password = $args[0]
+}
+
 Write-Host "Script para la instalacion del agente de Telegraft" -ForegroundColor Green
 Write-Host "######################################################################" -ForegroundColor Yellow
 Write-Host "1.- Comprobando permisos de Administrador"
