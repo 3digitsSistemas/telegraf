@@ -61,6 +61,7 @@ Move-Item -Path (Join-Path -Path $destino -ChildPath "telegraf-1.30.3\telegraf.*
 # Eliminar el archivo ZIP y el directorio descomprimido
 Remove-Item -Path $zipPath
 Remove-Item -Path (Join-Path -Path $destino -ChildPath "telegraf-1.30.3") -Recurse -Force
+Remove-Item -Path (Join-Path -Path $destino -ChildPath "telegraf.conf") -Recurse -Force
 
 Write-Host "5.- Determinando nombre de organizacion"
 # Obtener el nombre del dominio del equipo
