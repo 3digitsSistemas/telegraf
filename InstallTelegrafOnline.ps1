@@ -99,7 +99,7 @@ $outputsContent = @"
 "@
 
 Set-Content -Path (Join-Path -Path $telegrafD -ChildPath "outputs.conf") -Value $outputsContent -Encoding UTF8
-Write-Host "- El archivo outputs.conf se ha creado con éxito en la carpeta telegraf.d." -ForegroundColor Green
+Write-Host "- El archivo outputs.conf se ha creado con exito en la carpeta telegraf.d." -ForegroundColor Green
 
 # Ruta al archivo telegraf.exe
 $rutaEjecutable = Join-Path -Path $destino -ChildPath "telegraf.exe"
