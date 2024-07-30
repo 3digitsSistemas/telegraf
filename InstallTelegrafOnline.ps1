@@ -85,13 +85,28 @@ $confContent = @"
 Set-Content -Path (Join-Path -Path $telegrafD -ChildPath "organization.conf") -Value $confContent
 Write-Host "- El archivo organization.conf se ha creado con exito en la carpeta telegraf.d." -ForegroundColor Green
 
+# Solicitar al usuario la contraseña para el archivo outputs.conf
+$password = Read-Host "6.- Introduce la contraseña de la BBDD:"
+
+# Generar el archivo outputs.conf dentro de la carpeta telegraf.d
+$outputsContent = @"
+[[outputs.influxdb]]
+   urls = ["http://metrics.3digits.es:8086"]
+   database = "telegraf"
+   username = "metrics"
+   password = "$password"
+"@
+
+Set-Content -Path (Join-Path -Path $telegrafD -ChildPath "outputs.conf") -Value $outputsContent -Encoding UTF8
+Write-Host "- El archivo outputs.conf se ha creado con éxito en la carpeta telegraf.d." -ForegroundColor Green
+
 # Ruta al archivo telegraf.exe
 $rutaEjecutable = Join-Path -Path $destino -ChildPath "telegraf.exe"
 
 # Convertir el archivo telegraf.exe en un servicio
 cd $destino
 .\telegraf.exe --service install --config https://raw.githubusercontent.com/3digitsSistemas/telegraf/main/telegraf.conf --config-directory $destino\telegraf.d
-Write-Host "6.- Convirtiendo telegraf.exe en servicio de Sistema."
+Write-Host "7.- Convirtiendo telegraf.exe en servicio de Sistema."
 
 # Iniciar el servicio Telegraf
 Start-Service -Name "telegraf"
@@ -112,7 +127,7 @@ if ($serviceStatus.Status -eq "Running") {
 # Configurar el recovery para que el servicio se reinicie en caso de un primer fallo y se configura el inicio automático retrasado
 sc.exe failure "telegraf" reset=0 actions=restart/60000/restart/60000/restart/60000 | Out-Null
 sc.exe config "telegraf" start=delayed-auto | Out-Null
-Write-Host "7.- Configurado el recovery para reiniciar el servicio en caso de fallo."
+Write-Host "8.- Configurado el recovery para reiniciar el servicio en caso de fallo."
 
 Write-Host "######################################################################" -ForegroundColor Yellow
 
