@@ -1,3 +1,7 @@
+param (
+    [string]$password
+)
+
 Write-Host "Script para la instalacion del agente de Telegraft" -ForegroundColor Green
 Write-Host "######################################################################" -ForegroundColor Yellow
 Write-Host "1.- Comprobando permisos de Administrador"
@@ -86,8 +90,12 @@ $confContent = @"
 Set-Content -Path (Join-Path -Path $telegrafD -ChildPath "organization.conf") -Value $confContent
 Write-Host "- El archivo organization.conf se ha creado con exito en la carpeta telegraf.d." -ForegroundColor Green
 
-# Solicitar al usuario la contraseña para el archivo outputs.conf
-$password = Read-Host "6.- Introduce el password de la BBDD"
+Write-Host "6.- Configurando conexión con BBDD"
+# Comprobar si la contraseña fue proporcionada como argumento
+if (-not $password) {
+    # Solicitar al usuario la contraseña para el archivo outputs.conf
+    $password = Read-Host "- Introduce el password de la BBDD"
+}
 
 # Generar el archivo outputs.conf dentro de la carpeta telegraf.d
 $outputsContent = @"
