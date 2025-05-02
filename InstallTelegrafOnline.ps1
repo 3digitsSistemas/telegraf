@@ -57,18 +57,18 @@ Write-Host "- El directorio telegraf.d se ha creado en $destino." -ForegroundCol
 
 Write-Host "4.- Descargando agente de telegraf"
 # Descarga telegraf en el directorio de destino
-$zipPath = Join-Path -Path $destino -ChildPath "telegraf-1.30.3_windows_amd64.zip"
-wget https://dl.influxdata.com/telegraf/releases/telegraf-1.30.3_windows_amd64.zip -UseBasicParsing -OutFile $zipPath
+$zipPath = Join-Path -Path $destino -ChildPath "telegraf-1.34.2_windows_amd64.zip"
+wget https://dl.influxdata.com/telegraf/releases/telegraf-1.34.2_windows_amd64.zip -UseBasicParsing -OutFile $zipPath
 
 # Descomprimir el archivo en el directorio de destino
 Expand-Archive -Path $zipPath -DestinationPath $destino
 
 # Mover los archivos telegraf.* del directorio descomprimido al directorio de destino
-Move-Item -Path (Join-Path -Path $destino -ChildPath "telegraf-1.30.3\telegraf.*") -Destination $destino
+Move-Item -Path (Join-Path -Path $destino -ChildPath "telegraf-1.34.2\telegraf.*") -Destination $destino
 
 # Eliminar el archivo ZIP y el directorio descomprimido
 Remove-Item -Path $zipPath
-Remove-Item -Path (Join-Path -Path $destino -ChildPath "telegraf-1.30.3") -Recurse -Force
+Remove-Item -Path (Join-Path -Path $destino -ChildPath "telegraf-1.34.2") -Recurse -Force
 Remove-Item -Path (Join-Path -Path $destino -ChildPath "telegraf.conf") -Recurse -Force
 
 Write-Host "5.- Determinando nombre de organizacion"
