@@ -108,6 +108,7 @@ $outputsContent = @"
    database = "telegraf"
    username = "metrics"
    password = "$password"
+   timeout = "10s"
 "@
 
 Set-Content -Path (Join-Path -Path $telegrafD -ChildPath "outputs.conf") -Value $outputsContent -Encoding UTF8
