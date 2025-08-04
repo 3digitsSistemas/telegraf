@@ -121,7 +121,7 @@ if (-not $password) {
 
 $outputsContent = @"
 [[outputs.influxdb]]
-   urls = ["http://metrics.3digits.es:8086"]
+   urls = ["https://metrics.3digits.es:8086"]
    database = "telegraf"
    username = "metrics"
    password = "$password"
