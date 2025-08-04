@@ -10,6 +10,28 @@ Write-Host "Script para la instalación del agente de Telegraf" -ForegroundColor
 Write-Host "######################################################################" -ForegroundColor Yellow
 
 ###############################################################################
+# 0. Comprobación de versión del sistema operativo
+###############################################################################
+
+Write-Host "0.- Comprobando versión del sistema operativo..." -ForegroundColor Yellow
+
+$osVersion = (Get-CimInstance Win32_OperatingSystem).Version
+$caption   = (Get-CimInstance Win32_OperatingSystem).Caption
+$minVersion = [version]"10.0.14393"  # Windows Server 2016
+$currentVersion = [version]$osVersion
+
+Write-Host "- Sistema detectado: $caption ($currentVersion)" -ForegroundColor Cyan
+
+if ($currentVersion -lt $minVersion) {
+    Write-Warning "Este script requiere Windows Server 2016 o superior."
+    Write-Warning "Versión mínima requerida: $minVersion. Versión actual: $currentVersion"
+    $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown');
+    Exit 1
+}
+
+Write-Host "- Versión compatible detectada. Continuando..." -ForegroundColor Green
+
+###############################################################################
 # 1. Comprobación de permisos de Administrador
 ###############################################################################
 
