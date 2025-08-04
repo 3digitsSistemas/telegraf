@@ -6,14 +6,14 @@ if (-not $password -and $args.Length -gt 0) {
     $password = $args[0]
 }
 
-Write-Host "Script para la instalación del agente de Telegraf" -ForegroundColor Green
+Write-Host "Script para la instalación del agente de Telegraf" -ForegroundColor Yellow
 Write-Host "######################################################################" -ForegroundColor Yellow
 
 ###############################################################################
 # 0. Comprobación de versión del sistema operativo
 ###############################################################################
 
-Write-Host "0.- Comprobando versión del sistema operativo..." -ForegroundColor Yellow
+Write-Host "0.- Comprobando versión del sistema operativo..."
 
 $osVersion = (Get-CimInstance Win32_OperatingSystem).Version
 $caption   = (Get-CimInstance Win32_OperatingSystem).Caption
