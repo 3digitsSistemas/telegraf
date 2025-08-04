@@ -51,11 +51,7 @@ if (Test-Path -Path $installPath -PathType Container) {
     Write-Host "→ El directorio Telegraf no existe." -ForegroundColor DarkYellow
 }
 
-# Crear carpeta vacía nuevamente
-New-Item -Path $installPath -ItemType Directory -Force | Out-Null
-Write-Host "- Directorio creado: $installPath" -ForegroundColor Green
-
 Write-Host "######################################################################" -ForegroundColor Yellow
-Write-Host "Tareas completadas. El entorno está limpio para reinstalar Telegraf." -ForegroundColor Cyan
+Write-Host "Tareas completadas. Telegraf eliminado del sistema." -ForegroundColor Cyan
 Write-Host -NoNewLine 'Pulsa una tecla para salir...';
 $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown');
