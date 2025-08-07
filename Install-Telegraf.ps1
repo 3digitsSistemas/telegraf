@@ -6,6 +6,10 @@ if (-not $password -and $args.Length -gt 0) {
     $password = $args[0]
 }
 
+# Forzamos TLS 1.2 para evitar problemas de conexión HTTPS
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+
+
 Write-Host "Script para la instalación del agente de Telegraf" -ForegroundColor Yellow
 Write-Host "######################################################################" -ForegroundColor Yellow
 
