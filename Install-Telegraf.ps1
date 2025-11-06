@@ -144,7 +144,8 @@ Write-Host "- Archivo organization.conf generado." -ForegroundColor Green
 if (-not $password) {
     $password = Read-Host "- Introduce el password de la BBDD"
 }
-
+if ($domainName -and $domainName -eq "3digits.es") {
+Write-Host "- Dominio interno, OUTPUT apuntando a https://metrics.3digits.es:8086 ." -ForegroundColor Yellow
 $outputsContent = @"
 [[outputs.influxdb]]
    urls = ["https://metrics.3digits.es:8086"]
@@ -153,6 +154,17 @@ $outputsContent = @"
    password = "$password"
    timeout = "10s"
 "@
+} else {
+Write-Host "- Dominio interno, OUTPUT apuntando a https://metrics.3digits.net:8087." -ForegroundColor Yellow
+$outputsContent = @"
+[[outputs.influxdb]]
+   urls = ["https://metrics.3digits.net:8087"]
+   database = "telegraf"
+   username = "metrics"
+   password = "$password"
+   timeout = "10s"
+"@
+}
 
 Set-Content -Path (Join-Path $telegrafD "outputs.conf") -Value $outputsContent -Encoding UTF8
 Write-Host "- Archivo outputs.conf generado con éxito." -ForegroundColor Green
