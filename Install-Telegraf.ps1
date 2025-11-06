@@ -155,7 +155,7 @@ $outputsContent = @"
    timeout = "10s"
 "@
 } else {
-Write-Host "- Dominio interno, OUTPUT apuntando a https://metrics.3digits.net:8087." -ForegroundColor Yellow
+Write-Host "- Dominio externo, OUTPUT apuntando a https://metrics.3digits.net:8087." -ForegroundColor Yellow
 $outputsContent = @"
 [[outputs.influxdb]]
    urls = ["https://metrics.3digits.net:8087"]
