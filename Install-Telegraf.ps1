@@ -98,7 +98,7 @@ Write-Host "- Directorio creado: $destino" -ForegroundColor Green
 ###############################################################################
 
 $zipPath = Join-Path -Path $destino -ChildPath "telegraf.zip"
-$downloadUrl = "https://dl.influxdata.com/telegraf/releases/telegraf-1.35.3_windows_amd64.zip"
+$downloadUrl = "https://dl.influxdata.com/telegraf/releases/telegraf-1.37.0_windows_amd64.zip"
 
 Write-Host "4.- Descargando agente Telegraf desde $downloadUrl"
 Invoke-WebRequest -Uri $downloadUrl -OutFile $zipPath -UseBasicParsing
