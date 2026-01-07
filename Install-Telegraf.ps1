@@ -104,9 +104,9 @@ Write-Host "4.- Descargando agente Telegraf desde $downloadUrl"
 Invoke-WebRequest -Uri $downloadUrl -OutFile $zipPath -UseBasicParsing
 
 Expand-Archive -Path $zipPath -DestinationPath $destino
-Move-Item -Path (Join-Path $destino "telegraf-1.35.3\telegraf.*") -Destination $destino
+Move-Item -Path (Join-Path $destino "telegraf-1.37.0\telegraf.*") -Destination $destino
 Remove-Item -Path $zipPath
-Remove-Item -Path (Join-Path $destino "telegraf-1.35.3") -Recurse -Force
+Remove-Item -Path (Join-Path $destino "telegraf-1.37.0") -Recurse -Force
 Remove-Item -Path (Join-Path $destino "telegraf.conf") -Force -ErrorAction SilentlyContinue
 
 ###############################################################################
